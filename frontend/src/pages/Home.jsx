@@ -5,6 +5,7 @@ const Home = () => {
   const [feedback, setFeedback] = useState([]);
   const [courses, setCourses] = useState([]);
   const [form, setForm] = useState({ course: "", rating: "", message: "" });
+  const [editingId, setEditingId] = useState(null);
 
   const fetchData = async () => {
     const [res1, res2] = await Promise.all([
@@ -21,14 +22,35 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await API.post("/feedback", form);
+    if (editingId) {
+      await API.put(`/feedback/${editingId}`, form);
+    } else {
+      await API.post("/feedback", form);
+    }
     setForm({ course: "", rating: "", message: "" });
+    setEditingId(null);
     fetchData();
+  };
+
+  const handleEdit = (fb) => {
+    setEditingId(fb._id);
+    setForm({
+      course: fb.course._id,
+      rating: fb.rating,
+      message: fb.message,
+    });
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this feedback?")) {
+      await API.delete(`/feedback/${id}`);
+      fetchData();
+    }
   };
 
   return (
     <div>
-      <h2>Submit Feedback</h2>
+      <h2>{editingId ? "Edit Feedback" : "Submit Feedback"}</h2>
       <form onSubmit={handleSubmit}>
         <select
           required
@@ -57,14 +79,27 @@ const Home = () => {
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           required
         />
-        <button type="submit">Submit</button>
+        <button type="submit">{editingId ? "Update" : "Submit"}</button>
+        {editingId && (
+          <button
+            type="button"
+            onClick={() => {
+              setEditingId(null);
+              setForm({ course: "", rating: "", message: "" });
+            }}
+          >
+            Cancel
+          </button>
+        )}
       </form>
 
       <h3>My Feedback</h3>
       <ul>
         {feedback.map((fb) => (
           <li key={fb._id}>
-            <strong>{fb.course.title}</strong>: {fb.rating}⭐ – {fb.message}
+            <strong>{fb.course.title}</strong>: {fb.rating}⭐ – {fb.message}{" "}
+            <button onClick={() => handleEdit(fb)}>Edit</button>{" "}
+            <button onClick={() => handleDelete(fb._id)}>Delete</button>
           </li>
         ))}
       </ul>
