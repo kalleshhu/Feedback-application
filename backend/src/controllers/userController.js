@@ -1,21 +1,3 @@
-// import User from "../models/User.js";
-
-// export const listUsers = async (_req, res) => {
-//   const users = await User.find().select("-password");
-//   res.json(users);
-// };
-// export const toggleBlock = async (req, res) => {
-//   const user = await User.findById(req.params.id);
-//   user.blocked = !user.blocked;
-//   await user.save();
-//   res.json(user);
-// };
-// export const deleteUser = async (req, res) => {
-//   await User.findByIdAndDelete(req.params.id);
-//   res.json({ msg: "User deleted" });
-// };
-
-
 import User from "../models/User.js";
 
 export const listUsers = async (_req, res, next) => {

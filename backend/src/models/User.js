@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   phone: String,
   dob: Date,
   address: String,
-  avatarUrl: String,
+  avatar: String, // ✅ Changed from avatarUrl
   blocked: { type: Boolean, default: false }
 }, { timestamps: true });
 

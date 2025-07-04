@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../api/axios";
+import Navbar from "./Navbar";
 
 const Home = () => {
   const [feedback, setFeedback] = useState([]);
@@ -50,6 +51,7 @@ const Home = () => {
 
   return (
     <div>
+      <Navbar />
       <h2>{editingId ? "Edit Feedback" : "Submit Feedback"}</h2>
       <form onSubmit={handleSubmit}>
         <select

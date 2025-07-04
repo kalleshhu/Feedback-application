@@ -9,6 +9,8 @@ import feedbackRoutes from "./routes/feedbackRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import auth from "./middleware/auth.js";
 import userRoutes from "./routes/userRoutes.js";
+import profileRoutes  from "./routes/profileRoutes.js";
+import cloudinaryRoutes from "./routes/cloudinaryRoutes.js";
 
 
 dotenv.config();
@@ -22,6 +24,8 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/admin", auth, adminRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/cloudinary", cloudinaryRoutes);
 
 
 app.use((err, _req, res, _next) => {
