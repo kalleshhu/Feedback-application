@@ -6,6 +6,7 @@ import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import AllFeedbacks from "./pages/AllFeedbacks";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       {/* Admin‑only route */}
       <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} /> }>
         <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/feedbacks" element={<AllFeedbacks />} />
       </Route>
 
       {/* Catch‑all */}
