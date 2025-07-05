@@ -7,6 +7,8 @@ import Signup from "./components/Auth/Signup";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AllFeedbacks from "./pages/AllFeedbacks";
+import MyFeedbacks from "./pages/MyFeedbacks";
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
       <Route element={<ProtectedRoute /* default: allow all roles */ />}>
         <Route path="/home" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/my-feedbacks" element={<MyFeedbacks />} />
       </Route>
 
       {/* Admin‑only route */}

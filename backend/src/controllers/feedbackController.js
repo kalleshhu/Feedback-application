@@ -15,20 +15,36 @@ export const addFeedback = async (req, res, next) => {
   }
 };
 
-/* GET /api/feedback  (student – paginated) */
 export const listMyFeedback = async (req, res, next) => {
-  const { page = 1, limit = 10 } = req.query;
+  const page  = parseInt(req.query.page)  || 1;
+  const limit = parseInt(req.query.limit) || 5;  
+  const skip  = (page - 1) * limit;
+
   try {
-    const data = await Feedback.find({ user: req.user.id })
-      .populate("course", "title")
-      .skip((page - 1) * limit)
-      .limit(+limit)
-      .sort("-createdAt");
-    res.json(data);
+    
+    const [feedbacks, total] = await Promise.all([
+      Feedback.find({ user: req.user.id })
+        .populate("course", "title")
+        .sort("-createdAt")   
+        .skip(skip)
+        .limit(limit),
+
+      Feedback.countDocuments({ user: req.user.id })
+    ]);
+
+    res.json({
+      feedbacks,          
+      total,              
+      page,
+      totalPages: Math.ceil(total / limit),
+      limit
+    });
   } catch (err) {
     next(err);
   }
 };
+
+
 
 /* GET /api/feedback/admin  (ADMIN – filterable) */
 export const listAllFeedback = async (req, res, next) => {

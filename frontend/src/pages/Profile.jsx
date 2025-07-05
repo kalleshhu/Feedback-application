@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import API from "../api/axios";
 import { uploadImage } from "../utils/uploadImage";
+import "./Profile.css";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -44,24 +45,14 @@ const Profile = () => {
     }
   };
 
-  const avatarStyle = {
-    width: "80px",
-    height: "80px",
-    borderRadius: "50%",
-    objectFit: "cover",
-    marginRight: "1rem",
-    border: "2px solid #ccc"
-  };
-
   const Heading = ({ avatar, title }) => (
-    <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
+    <div className="profile-heading">
       <img
         src={avatar || "/default-avatar.png"}
         alt="avatar"
-        style={avatarStyle}
         onError={(e) => { e.target.src = "/default-avatar.png"; }}
       />
-      <h2 style={{ margin: 0 }}>{title}</h2>
+      <h2>{title}</h2>
     </div>
   );
 
@@ -71,14 +62,18 @@ const Profile = () => {
     return (
       <div className="profile">
         <Heading avatar={user.avatar} title="My Profile" />
-        <p><strong>Name:</strong> {user.name}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        {user.phone && <p><strong>Phone:</strong> {user.phone}</p>}
-        {user.dob && !isNaN(new Date(user.dob)) && (
-          <p><strong>DOB:</strong> {new Date(user.dob).toLocaleDateString()}</p>
-        )}
-        {user.address && <p><strong>Address:</strong> {user.address}</p>}
-        <button onClick={() => setEditOn(true)}>Edit</button>
+        <div className="profile-info">
+          <p><strong>Name:</strong> {user.name}</p>
+          <p><strong>Email:</strong> {user.email}</p>
+          {user.phone && <p><strong>Phone:</strong> {user.phone}</p>}
+          {user.dob && !isNaN(new Date(user.dob)) && (
+            <p><strong>DOB:</strong> {new Date(user.dob).toLocaleDateString()}</p>
+          )}
+          {user.address && <p><strong>Address:</strong> {user.address}</p>}
+        </div>
+        <div className="profile-actions">
+          <button className="edit-button" onClick={() => setEditOn(true)}>Edit</button>
+        </div>
       </div>
     );
   }
@@ -87,7 +82,7 @@ const Profile = () => {
     <div className="profile-edit">
       <Heading avatar={edit.avatar} title="Edit Profile" />
 
-      <form onSubmit={saveInfo}>
+      <form onSubmit={saveInfo} className="profile-form">
         <label>
           Name
           <input
@@ -148,9 +143,9 @@ const Profile = () => {
           />
         </label>
 
-        {uploading && <p style={{ color: "gray" }}>Uploading avatar…</p>}
+        {uploading && <p className="uploading">Uploading avatar…</p>}
 
-        <div style={{ marginTop: "1rem" }}>
+        <div className="form-buttons">
           <button type="submit" disabled={uploading}>
             {uploading ? "Saving…" : "Save"}
           </button>
@@ -161,79 +156,77 @@ const Profile = () => {
               setEditOn(false);
               fileInputRef.current.value = "";
             }}
-            style={{ marginLeft: "0.5rem" }}
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={() => setChangingPw(true)}
-            style={{ marginLeft: "0.5rem" }}
           >
             Change Password
           </button>
         </div>
       </form>
 
-{changingPw && (
-  <form onSubmit={changePassword} style={{ marginTop: "2rem" }}>
-    <h3>Change Password</h3>
+      {changingPw && (
+        <form onSubmit={changePassword} className="password-form">
+          <div className="change-password-container">
+          <h3>Change Password</h3>
 
-    <label>
-      Current Password
-      <input
-        type="password"
-        value={pw.current}
-        onChange={e => setPw({ ...pw, current: e.target.value })}
-        required
-      />
-    </label>
+          <label>
+            Current Password
+            <input
+              type="password"
+              value={pw.current}
+              onChange={e => setPw({ ...pw, current: e.target.value })}
+              required
+            />
+          </label>
 
-    <label>
-      New Password
-      <input
-        type="password"
-        value={pw.password}
-        onChange={e => setPw({ ...pw, password: e.target.value })}
-        required
-      />
-    </label>
+          <label>
+            New Password
+            <input
+              type="password"
+              value={pw.password}
+              onChange={e => setPw({ ...pw, password: e.target.value })}
+              required
+            />
+          </label>
 
-    <label>
-      Confirm Password
-      <input
-        type="password"
-        value={pw.confirm || ""}
-        onChange={e => setPw({ ...pw, confirm: e.target.value })}
-        required
-      />
-    </label>
+          <label>
+            Confirm Password
+            <input
+              type="password"
+              value={pw.confirm || ""}
+              onChange={e => setPw({ ...pw, confirm: e.target.value })}
+              required
+            />
+          </label>
 
-    {pw.password && pw.confirm && pw.password !== pw.confirm && (
-      <p style={{ color: "red" }}>Passwords do not match</p>
-    )}
+          {pw.password && pw.confirm && pw.password !== pw.confirm && (
+            <p className="error">Passwords do not match</p>
+          )}
 
-    <div style={{ marginTop: "1rem" }}>
-      <button
-        type="submit"
-        disabled={pw.password !== pw.confirm}
-      >
-        Update Password
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          setChangingPw(false);
-          setPw({ current: "", password: "", confirm: "" });
-        }}
-        style={{ marginLeft: "0.5rem" }}
-      >
-        Cancel
-      </button>
-    </div>
-  </form>
-)}
-
+          <div className="form-buttons">
+            <button
+              type="submit"
+              disabled={pw.password !== pw.confirm}
+            >
+              Update Password
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setChangingPw(false);
+                setPw({ current: "", password: "", confirm: "" });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+          </div>
+        </form>
+      )}
     </div>
   );
 };

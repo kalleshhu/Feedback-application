@@ -1,30 +1,56 @@
+/* Remove any inherited margin so the bar touches screen edges */
+body {
+  margin: 0;               /* ← kills default 8 px browser margin */
+}
+
 .navbar {
+  width: 100%;
+  margin: 0;               /* ← ensure no side margins */
+  padding: 0.75rem 2rem;   /* interior padding stays */
+  background-color: #333;
+  color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-sizing: border-box;  /* include padding in width calc */
+}
+
+/* … keep the rest of your rules the same … */
+
+
+.navbar h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
   color: white;
 }
 
+.profile-section {
+  position: relative;
+}
+
 .profile-circle {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+  border: 2px solid #fff;
 }
 
 .dropdown {
   position: absolute;
-  right: 10px;
-  top: 60px;
+  right: 0;
+  top: 110%;
   background: white;
   color: black;
   border: 1px solid #ddd;
   border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
+  min-width: 160px;
 }
 
 .dropdown button {
@@ -33,4 +59,11 @@
   background: none;
   text-align: left;
   cursor: pointer;
+  font-size: 1rem;
+  color: #333;
+  transition: background 0.3s;
+}
+
+.dropdown button:hover {
+  background-color: #f0f0f0;
 }

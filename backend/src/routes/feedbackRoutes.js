@@ -12,16 +12,16 @@ import {
 } from "../controllers/feedbackController.js";
 
 const router = Router();
-router.use(auth);                     // all routes below require auth
+router.use(auth);                     
 
 /* Student endpoints */
-router.post("/", addFeedback);        // POST /api/feedback
-router.get("/",  listMyFeedback);     // GET  /api/feedback?page=1&limit=10
+router.post("/", addFeedback);        
+router.get("/", listMyFeedback);    // GET  /api/feedback?page=1&limit=10
 
 router
   .route("/:id")
-  .put(updateFeedback)          // PUT  /api/feedback/:id
-  .delete(deleteFeedback);      // DELETE /api/feedback/:id
+  .put(updateFeedback)          
+  .delete(deleteFeedback);      
 
 router.get("/admin/csv", role("ADMIN"), exportCSV);
 router.get("/admin/avg-ratings", role("ADMIN"), avgRatings);

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../api/axios";
 import { useAuth } from "../../context/AuthContext";
+import "./Auth.css";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -26,7 +27,7 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="auth-form" onSubmit={handleSubmit}>
       <h2>Login</h2>
 
       <input
@@ -45,7 +46,9 @@ const Login = () => {
         required
       />
 
+      <div className="button-wraper">
       <button type="submit">Login</button>
+      </div>
       <p>
         Don't have an account? <Link to="/signup">Signup</Link>
       </p>
