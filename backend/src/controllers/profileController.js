@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 /* GET /api/profile */
 export const getProfile = async (req, res, next) => {
