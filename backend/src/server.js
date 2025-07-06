@@ -19,6 +19,12 @@ connectDB();
 const app = express();
 app.use(cors(), express.json(), morgan("dev"));
 
+
+app.get("/", (req, res) => {
+  res.send("🎉 Feedback API is live!");
+});
+
+
 app.use("/api/auth", authRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/feedback", feedbackRoutes);
