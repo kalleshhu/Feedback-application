@@ -32,6 +32,16 @@ app.use((err, _req, res, _next) => {
   res.status(err.status || 500).json({ msg: err.message || "Server error" });
 });
 
+app.use(
+  cors({
+    origin: [
+      "https://feedback-application-5y0o.onrender.com",
+      "http://localhost:3000",
+    ],
+  })
+);
+
+
 app.listen(process.env.PORT, () =>
   console.log(`🚀 Server running on http://localhost:${process.env.PORT}`)
 );
