@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AllFeedbacks from "./pages/AllFeedbacks";
 import MyFeedbacks from "./pages/MyFeedbacks";
+import ChangePassword from "./pages/ChangePassword";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} /> }>
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/feedbacks" element={<AllFeedbacks />} />
+        <Route path="/change-password" element={<ChangePassword />} />
       </Route>
 
       {/* Catch‑all */}

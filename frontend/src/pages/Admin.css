@@ -31,7 +31,7 @@ section {
 }
 
 button {
-  background: #4a90e2;
+  background: cadetblue;
   color: #fff;
   padding: 0.5rem 1rem;
   margin: 0.3rem;
@@ -54,7 +54,7 @@ button {
 
 
 button:hover {
-  background: #357ac8;
+  background: #31639d;
 }
 
 button.danger {

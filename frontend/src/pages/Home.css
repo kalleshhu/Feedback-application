@@ -126,7 +126,7 @@
 
 .feedback-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 3 cards per row */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1rem;
   padding: 0;
   list-style: none;
@@ -140,11 +140,11 @@
   background: #f9f9f9;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: self-start;
 }
 
 .feedback-card > div {
-  margin-bottom: 0.5rem; /* space between Course, Rating, Message lines */
+  margin-bottom: 0.5rem; 
 }
 
 

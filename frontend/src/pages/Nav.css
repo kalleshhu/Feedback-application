@@ -1,10 +1,40 @@
 
-
-nav {
+.admin-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #2d2d2d;
   color: white;
-  background-color: #333333;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.hamburger {
+  font-size: 26px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background: none;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.dropdown-menu button {
+  background: none;
+  background-color:beige;
+  color: #2d2d2d;
+  border: none;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f0f0;
 }

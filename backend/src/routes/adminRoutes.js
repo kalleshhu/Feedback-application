@@ -11,4 +11,5 @@ r.get("/stats", stats);
 r.get("/users", listUsers);
 r.patch("/users/:id/block", blockUser);
 r.delete("/users/:id", deleteUser);
+
 export default r;

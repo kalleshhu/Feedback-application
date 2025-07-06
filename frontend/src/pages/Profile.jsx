@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import API from "../api/axios";
 import { uploadImage } from "../utils/uploadImage";
+import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 
 const Profile = () => {
@@ -11,6 +12,8 @@ const Profile = () => {
   const [changingPw, setChangingPw] = useState(false);
   const [pw, setPw] = useState({ current: "", password: "" });
   const fileInputRef = useRef(null);
+
+   const navigate = useNavigate();
 
   useEffect(() => {
     API.get("/profile")
@@ -74,6 +77,11 @@ const Profile = () => {
         <div className="profile-actions">
           <button className="edit-button" onClick={() => setEditOn(true)}>Edit</button>
         </div>
+        <div style={{marginTop:"5px"}} className="back-button-wrapper">
+        <button style={{padding:"7px", backgroundColor:"grey"}} onClick={() => navigate(-1)} className="back-button">
+          ← Back
+        </button>
+      </div>
       </div>
     );
   }

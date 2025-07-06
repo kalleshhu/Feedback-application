@@ -45,7 +45,7 @@ select {
   display: inline-block;
   margin-top: 0.5rem;
   padding: 0.5rem 1rem;
-  background: #4a90e2;
+  background: cadetblue;
   color: white;
   text-decoration: none;
   border-radius: 6px;
@@ -53,7 +53,7 @@ select {
 }
 
 .csv-link:hover {
-  background: #357ac8;
+  background: #31629a;
 }
 
 /* Feedback list */

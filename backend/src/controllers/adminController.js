@@ -10,3 +10,4 @@ export const stats = async (_req, res) => {
   ]);
   res.json({ students, feedbacks, courses });
 };
+
