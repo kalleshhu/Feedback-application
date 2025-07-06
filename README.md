@@ -35,7 +35,9 @@ To run the project on local server, first navigate to the project directory in y
 1. Now create a directory /data/db in the location where your project folder resides.
 2. run cd to your backend and run "mongod" to start your database.
 3. Now open new terminal or split your terminal and run "npm install" after completion of install run "npm start" to your backend server
-4. Now open new terminal or split your terminal and run cd frontend, then run "npm install" after completion run "npm run dev" it will start your server.
+4. Now open new terminal or split your terminal and run cd frontend,
+in the "./src/api/axios.js" file change the  baseURL to  baseURL: "/api",
+then run "npm install" after completion run "npm run dev" it will start your server.
   
 5. Open localhost:3000 from your favourite browser.
 
