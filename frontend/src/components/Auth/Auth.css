@@ -1,6 +1,4 @@
-/* Auth.css */
 
-/* Form container */
 .auth-form {
   width: 100%;
   max-width: 320px;
@@ -21,11 +19,6 @@
   color: #333;
 }
 
-/* —————————————————————
-   Email & Password fields
-   ————————————————————— */
-
-/* Make *all* inputs full width of the form inner */
 .auth-form input,
 .input-with-eye input {
   width: 100%;
@@ -48,7 +41,6 @@
   padding: 0;
 }
 
-/* Focus style */
 .auth-form input:focus,
 .input-with-eye input:focus {
   outline: none;
@@ -56,16 +48,12 @@
   background-color: #fff;
 }
 
-/* —————————————————————
-   Eye‑icon wrapper
-   ————————————————————— */
 .input-with-eye {
   position: relative !important;
   width: 100% !important;
   margin-bottom: 1rem !important;
 }
 
-/* Give extra right padding for the icon */
 .input-with-eye input {
   padding-right: 2.5rem !important;
 }
@@ -81,9 +69,6 @@
   color: #555;
 }
 
-/* —————————————————————
-   Submit button
-   ————————————————————— */
 .button-wrapper, .button-wraper {
   display: flex !important;
   justify-content: center !important;
@@ -107,9 +92,6 @@
   background-color: #75787d !important;
 }
 
-/* —————————————————————
-   Footer link
-   ————————————————————— */
 .auth-form p {
   text-align: center !important;
   margin-top: 1.2rem !important;
