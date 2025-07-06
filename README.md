@@ -40,8 +40,14 @@ To run the project on local server, first navigate to the project directory in y
 5. Open localhost:3000 from your favourite browser.
 
 
-MangoDB and Coludiinary setup instructions :
+6. MangoDB and Coludiinary setup instructions :
 * i have added the sample .env file replace your credentials there,
 * to get get the Coludinary credentials, you can visit this website "https://cloudinary.com/" create your account there. 
 
 
+7. Login and signup instructions
+   * first go to the signup
+   * you can select the role from the dropdown
+   * i have put the admin user capacity to 2, only two users can signup as admin
+   * students can signup using their name, email and password.
+   * registered students can login to the application.
