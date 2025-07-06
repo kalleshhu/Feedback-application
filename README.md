@@ -41,6 +41,7 @@ To run the project on local server, first navigate to the project directory in y
 
 
 MangoDB and Coludiinary setup instructions :
-i have added the sample .env file replace your credentials there
+* i have added the sample .env file replace your credentials there,
+* to get get the Coludinary credentials, you can visit this website "https://cloudinary.com/" create your account there. 
 
 
