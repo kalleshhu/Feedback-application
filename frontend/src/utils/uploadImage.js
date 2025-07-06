@@ -37,12 +37,12 @@
 // };
 
 
-// vite env: VITE_API_URL = "https://feedback-app-api-vose.onrender.com/api"
+
 const API_ROOT =
   import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 export const uploadImage = async (file) => {
-  const signRes = await fetch(`${API_ROOT}/cloudinary/sign`, {
+  const signRes = await fetch("https://feedback-application-api.onrender.com/api/cloudinary/sign", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ folder: "avatars" }),
