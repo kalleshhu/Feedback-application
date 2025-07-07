@@ -12,7 +12,7 @@ const Home = () => {
   const [editingId, setEditingId] = useState(null);
   const navigate = useNavigate();
 
-  /* fetch courses once */
+  /* fetch courses */
   useEffect(() => {
     API.get("/courses").then(res => setCourses(res.data));
   }, []);
@@ -36,7 +36,7 @@ const Home = () => {
       <div className="home-container">
         <h2>{editingId ? "Edit Feedback" : "Submit Feedback"}</h2>
 
-        {/* ---------------- Feedback Form --------------- */}
+        {/* Feedback Form */}
         <form onSubmit={handleSubmit} className="feedback-form">
           <select
             required
@@ -83,7 +83,7 @@ const Home = () => {
           </div>
         </form>
 
-        {/* ----------- link to new feedback list page ---------- */}
+        {/* link to feedback list */}
         <button
           className="section-btn"
           style={{ marginTop: "2rem" }}
@@ -97,10 +97,7 @@ const Home = () => {
 };
 export default Home;
 
-/* --------------------------------------------------
-   MY‑FEEDBACKS PAGE  – paginated list
-   Route path:  /my-feedbacks
--------------------------------------------------- */
+/* MY‑FEEDBACKS PAGE  – paginated list */
 export function MyFeedbacks() {
   const [list, setList]       = useState([]);
   const [page, setPage]       = useState(1);

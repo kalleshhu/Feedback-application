@@ -48,7 +48,7 @@ export default function ChangePassword() {
         required
       />
 
-      {/* New password + eye */}
+      {/* New password */}
       <div className="input-with-eye">
         <input
           type={showNew ? "text" : "password"}
@@ -60,7 +60,7 @@ export default function ChangePassword() {
         <span onClick={() => setShowNew(!showNew)}>{eye(showNew)}</span>
       </div>
 
-      {/* Confirm password + eye */}
+      {/* Confirm password */}
       <div className="input-with-eye">
         <input
           type={showConfirm ? "text" : "password"}

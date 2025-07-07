@@ -1,22 +1,20 @@
-/* Remove any inherited margin so the bar touches screen edges */
+
 body {
-  margin: 0;               /* ← kills default 8 px browser margin */
+  margin: 0;               
 }
 
 .navbar {
   width: 100%;
-  margin: 0;               /* ← ensure no side margins */
-  padding: 0.75rem 2rem;   /* interior padding stays */
+  margin: 0;               
+  padding: 0.75rem 2rem;   
   background-color: #333;
   color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  box-sizing: border-box;  /* include padding in width calc */
+  box-sizing: border-box;  
 }
-
-/* … keep the rest of your rules the same … */
 
 
 .navbar h2 {

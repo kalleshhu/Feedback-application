@@ -18,8 +18,7 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
 
-      {/* Protected routes – any authenticated user (Student or Admin) */}
-      <Route element={<ProtectedRoute /* default: allow all roles */ />}>
+      <Route element={<ProtectedRoute />}>
         <Route path="/home" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/my-feedbacks" element={<MyFeedbacks />} />

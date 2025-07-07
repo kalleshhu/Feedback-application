@@ -1,4 +1,4 @@
-/* General container for view/edit profile */
+
 .profile,
 .profile-edit {
   max-width: 550px;
@@ -10,7 +10,7 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* Heading section with image and title */
+
 .profile-heading {
   display: flex;
   align-items: center;
@@ -32,7 +32,6 @@
   font-size: 1.6rem;
 }
 
-/* Profile info text */
 .profile-info p {
   text-align: left;
   margin: 0.5rem 0;
@@ -99,7 +98,6 @@
   background-color: #6f8ccc;
 }
 
-/* Upload message and error */
 .uploading {
   color: gray;
   font-size: 0.9rem;
@@ -112,7 +110,6 @@
   margin-top: 0.5rem;
 }
 
-/* View mode button */
 .profile button {
   display: block;
   margin: 1.5rem auto 0;
@@ -184,9 +181,8 @@
 }
 
 
-/* ------------------- */
-/* 📱 Mobile Responsive */
-/* ------------------- */
+
+/* Mobile Responsive */
 @media screen and (max-width: 600px) {
   .profile,
   .profile-edit {

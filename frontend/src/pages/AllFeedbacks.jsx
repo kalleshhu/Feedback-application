@@ -7,13 +7,13 @@ import "./AllFeedbacks.css";
 const LIMIT = 9;               
 
 export default function AllFeedbacks() {
-  const [feedback,      setFeedback]      = useState([]);   // filtered list
-  const [totalFeedback, setTotalFeedback] = useState(0);    // master total
-  const [page,          setPage]          = useState(1);    // current page
+  const [feedback, setFeedback] = useState([]);   // filtered list
+  const [totalFeedback, setTotalFeedback] = useState(0);    // total
+  const [page, setPage] = useState(1);    // current page
 
   const [courses, setCourses] = useState([]);
-  const [users,   setUsers]   = useState([]);
-  const [filter,  setFilter]  = useState({ course: "", rating: "", student: "" });
+  const [users, setUsers] = useState([]);
+  const [filter, setFilter] = useState({ course: "", rating: "", student: "" });
 
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ export default function AllFeedbacks() {
     setPage(1);                          
   };
 
-  /* master total once */
+  /* total once */
   useEffect(() => {
     API.get("/feedback/admin").then(res => setTotalFeedback(res.data.length));
   }, []);
@@ -38,11 +38,11 @@ export default function AllFeedbacks() {
   /* refresh on filter */
   useEffect(() => { pull(); }, [filter]);
 
-  /* -------------- paging --------------- */
+  /* paging */
   const totalPages = Math.max(1, Math.ceil(feedback.length / LIMIT));
   const paged = feedback.slice((page - 1) * LIMIT, page * LIMIT);
 
-  /* -------------- UI ------------------- */
+  /* UI */
   return (
     <div>
       <h2 style={{ marginTop: "5%" }}>All Feedbacks</h2>

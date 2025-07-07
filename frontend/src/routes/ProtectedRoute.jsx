@@ -8,7 +8,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
 
   // Check role
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/home" />; // or show unauthorized page
+    return <Navigate to="/home" />;
   }
 
   return <Outlet />;
