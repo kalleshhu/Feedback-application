@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
-const limit = 6;
+const limit = 4;
 
 export default function MyFeedbacks() {
   const [list, setList] = useState([]);
