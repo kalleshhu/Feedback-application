@@ -102,11 +102,11 @@ export function MyFeedbacks() {
   const [list, setList]       = useState([]);
   const [page, setPage]       = useState(1);
   const [totalPages, setTotal] = useState(1);
-  const limit = 5;            // items per page
+  const limit = 5;            
 
   const fetchPage = async (p) => {
     const res = await API.get("/feedback", { params: { page: p, limit } });
-    setList(res.data.docs || res.data);     // adapt to backend shape
+    setList(res.data.docs || res.data);     
     setTotal(res.data.totalPages || 1);
     setPage(p);
   };

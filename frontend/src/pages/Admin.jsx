@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
@@ -7,17 +6,20 @@ import "./Admin.css";
 
 export default function Admin() {
   const [feedback, setFeedback] = useState([]);
-  const [courses,  setCourses]  = useState([]);
-  const [users,    setUsers]    = useState([]);
+  const [courses, setCourses]   = useState([]);
+  const [users, setUsers]       = useState([]);
 
-  const [showCourses,  setShowCourses]  = useState(false);
-  const [showAdd,      setShowAdd]      = useState(false);
+  const [showCourses, setShowCourses]   = useState(false);
+  const [showAdd, setShowAdd]           = useState(false);
+  const [editingCourseId, setEditingCourseId] = useState(null);
+  const [courseEdits, setCourseEdits]   = useState({ title: "", description: "" });
+
   const [showStudents, setShowStudents] = useState(false);
 
   const [newCourse, setNewCourse] = useState({ title: "", description: "" });
   const navigate = useNavigate();
 
-  /* fetch all data once on mount */
+  /* fetch everything on mount */
   useEffect(() => { pull(); }, []);
   const pull = async () => {
     const [f, c, u] = await Promise.all([
@@ -30,7 +32,7 @@ export default function Admin() {
     setUsers(u.data);
   };
 
-  /* course CRUD */
+  /* ─── Course CRUD ─────────────────────────────────────────── */
   const handleAddCourse = async (e) => {
     e.preventDefault();
     await API.post("/courses", newCourse);
@@ -38,13 +40,52 @@ export default function Admin() {
     setShowAdd(false);
     pull();
   };
-  const deleteCourse = async (id) => { await API.delete(`/courses/${id}`); pull(); };
 
-  /* student block / delete */
-  const toggleBlock = async (id) => { await API.patch(`/users/${id}/block`); pull(); };
-  const deleteUser  = async (id) => { await API.delete(`/users/${id}`); pull(); };
+  const startEditCourse = (c) => {
+    setEditingCourseId(c._id);
+    setCourseEdits({ title: c.title, description: c.description || "" });
+  };
 
-  /* avg rating helper */
+  const saveEditCourse = async (e) => {
+    e.preventDefault();
+    const { title, description } = courseEdits;
+    await API.put(`/courses/${editingCourseId}`, { title, description });
+    setEditingCourseId(null);
+    pull();
+  };
+
+  const deleteCourse = async (id) => {
+    if (!window.confirm("Delete this course?")) return;
+    await API.delete(`/courses/${id}`);
+    pull();
+  };
+
+  const deleteAllCourses = async () => {
+    if (!window.confirm("Delete ALL courses? This cannot be undone.")) return;
+    await Promise.all(courses.map(c => API.delete(`/courses/${c._id}`)));
+    pull();
+  };
+
+  /* ─── Student management ─────────────────────────────────── */
+  const toggleBlock = async (id) => {
+    if (!window.confirm("Toggle block status for this student?")) return;
+    await API.patch(`/users/${id}/block`);
+    pull();
+  };
+
+  const deleteUser = async (id) => {
+    if (!window.confirm("Delete this student account?")) return;
+    await API.delete(`/users/${id}`);
+    pull();
+  };
+
+  const deleteAllStudents = async () => {
+    if (!window.confirm("Delete ALL student accounts?")) return;
+    await Promise.all(users.map(u => API.delete(`/users/${u._id}`)));
+    pull();
+  };
+
+  /* ─── Feedback trends helper ─────────────────────────────── */
   const avgRatings = () => {
     const buckets = {};
     feedback.forEach(fb => {
@@ -57,7 +98,6 @@ export default function Admin() {
     }));
   };
 
-  /* UI  */
   return (
     <div>
       <Nav />
@@ -66,7 +106,10 @@ export default function Admin() {
       {/* Feedback summary */}
       <section>
         <h3>Feedback Count: {feedback.length}</h3>
-        <button className="section-btn" onClick={() => navigate("/admin/feedbacks")}>
+        <button
+          className="section-btn"
+          onClick={() => navigate("/admin/feedbacks")}
+        >
           View All Feedbacks
         </button>
       </section>
@@ -74,21 +117,33 @@ export default function Admin() {
       {/* Course management */}
       <section>
         <h3>Course Management</h3>
-        <button className="section-btn" onClick={() => setShowCourses(v => !v)}>
+        <button
+          className="section-btn"
+          onClick={() => setShowCourses(v => !v)}
+        >
           {showCourses ? "Hide Courses" : "View All Courses"}
         </button>
 
         {showCourses && (
           <>
-            <button className="section-btn"
-              onClick={() => setShowAdd(v => !v)}
-              style={{ marginTop: "1rem" }}
-            >
-              {showAdd ? "Cancel" : "Add Course"}
-            </button>
+            <div className="course-actions-row">
+              <button
+                className="section-btn"
+                onClick={() => setShowAdd(v => !v)}
+              >
+                {showAdd ? "Cancel Add" : "Add Course"}
+              </button>
+              <button
+                className="danger-all"
+                onClick={deleteAllCourses}
+              >
+                Delete All Courses
+              </button>
+            </div>
 
+            {/* Add Course form */}
             {showAdd && (
-              <form onSubmit={handleAddCourse} style={{ margin: "1rem 0" }}>
+              <form onSubmit={handleAddCourse} className="course-form">
                 <input
                   type="text"
                   placeholder="Course Title"
@@ -109,13 +164,40 @@ export default function Admin() {
             <ul className="course-list">
               {courses.map(c => (
                 <li key={c._id} className="course-row">
-                  <span className="course-name">{c.title}</span>
-                  <button
-                    onClick={() => deleteCourse(c._id)}
-                    className="delete-btn"
-                  >
-                    Delete
-                  </button>
+                  {editingCourseId === c._id ? (
+                    <form onSubmit={saveEditCourse} className="course-form-inline">
+                      <input
+                        type="text"
+                        value={courseEdits.title}
+                        onChange={e => setCourseEdits(prev => ({ ...prev, title: e.target.value }))}
+                        required
+                      />
+                      <input
+                        type="text"
+                        value={courseEdits.description}
+                        onChange={e => setCourseEdits(prev => ({ ...prev, description: e.target.value }))}
+                      />
+                      <button type="submit">Save</button>
+                      <button type="button" onClick={() => setEditingCourseId(null)}>
+                        Cancel
+                      </button>
+                    </form>
+                  ) : (
+                    <>
+                      <span className="course-name">{c.title}</span>
+                      <div>
+                        <button onClick={() => startEditCourse(c)}>
+                          Edit
+                        </button>
+                        <button
+                          className="danger"
+                          onClick={() => deleteCourse(c._id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </li>
               ))}
             </ul>
@@ -127,12 +209,25 @@ export default function Admin() {
       <section>
         <h3>Student Management</h3>
         <p>Total Registered Students: {users.length}</p>
-        <button className="section-btn" onClick={() => setShowStudents(v => !v)}>
-          {showStudents ? "Hide Students" : "View All Students"}
-        </button>
+        <div className="course-actions-row">
+          <button
+            className="section-btn"
+            onClick={() => setShowStudents(v => !v)}
+          >
+            {showStudents ? "Hide Students" : "View All Students"}
+          </button>
+        </div>
+
+        
 
         {showStudents && (
-          <ul style={{ marginTop: "1rem" }}>
+          <ul className="student-list">
+            <button
+            className="danger-all"
+            onClick={deleteAllStudents}
+          >
+            Delete All Students
+          </button>
             {users.map(u => (
               <li key={u._id} className="student-row">
                 <span>
@@ -143,8 +238,8 @@ export default function Admin() {
                     {u.blocked ? "Unblock" : "Block"}
                   </button>
                   <button
-                    onClick={() => deleteUser(u._id)}
                     className="danger"
+                    onClick={() => deleteUser(u._id)}
                   >
                     Delete
                   </button>

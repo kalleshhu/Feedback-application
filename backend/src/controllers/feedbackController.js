@@ -1,13 +1,12 @@
 import { toCSV } from "../utils/csv.js";
 import Feedback from "../models/Feedback.js";
 
-/* POST /api/feedback
-   body: { course, rating, message } */
+/* POST /api/feedback */
 export const addFeedback = async (req, res, next) => {
   try {
     const feedback = await Feedback.create({
       ...req.body,
-      user: req.user.id,      // set from auth middleware
+      user: req.user.id,
     });
     res.status(201).json(feedback);
   } catch (err) {
@@ -16,37 +15,33 @@ export const addFeedback = async (req, res, next) => {
 };
 
 export const listMyFeedback = async (req, res, next) => {
-  const page  = parseInt(req.query.page)  || 1;
-  const limit = parseInt(req.query.limit) || 5;  
-  const skip  = (page - 1) * limit;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  const skip = (page - 1) * limit;
 
   try {
-    
     const [feedbacks, total] = await Promise.all([
       Feedback.find({ user: req.user.id })
         .populate("course", "title")
-        .sort("-createdAt")   
+        .sort("-createdAt")
         .skip(skip)
         .limit(limit),
 
-      Feedback.countDocuments({ user: req.user.id })
+      Feedback.countDocuments({ user: req.user.id }),
     ]);
 
     res.json({
-      feedbacks,          
-      total,              
+      feedbacks,
+      total,
       page,
       totalPages: Math.ceil(total / limit),
-      limit
+      limit,
     });
   } catch (err) {
     next(err);
   }
 };
 
-
-
-/* GET /api/feedback/admin  (ADMIN – filterable) */
 export const listAllFeedback = async (req, res, next) => {
   const { course, rating, student } = req.query;
   const filter = {
@@ -65,18 +60,16 @@ export const listAllFeedback = async (req, res, next) => {
   }
 };
 
-/* PUT /api/feedback/:id  – student can edit own feedback */
 export const updateFeedback = async (req, res, next) => {
   try {
-    // Find the feedback and be sure the owner matches
     const fb = await Feedback.findById(req.params.id);
     if (!fb) return res.status(404).json({ msg: "Not found" });
     if (fb.user.toString() !== req.user.id && req.user.role !== "ADMIN")
       return res.status(403).json({ msg: "Forbidden" });
 
-    fb.rating   = req.body.rating   ?? fb.rating;
-    fb.message  = req.body.message  ?? fb.message;
-    fb.course   = req.body.course   ?? fb.course;
+    fb.rating = req.body.rating ?? fb.rating;
+    fb.message = req.body.message ?? fb.message;
+    fb.course = req.body.course ?? fb.course;
     await fb.save();
     res.json(fb);
   } catch (err) {
@@ -84,7 +77,6 @@ export const updateFeedback = async (req, res, next) => {
   }
 };
 
-/* DELETE /api/feedback/:id  – student can delete own feedback */
 export const deleteFeedback = async (req, res, next) => {
   try {
     const fb = await Feedback.findById(req.params.id);
@@ -99,6 +91,20 @@ export const deleteFeedback = async (req, res, next) => {
   }
 };
 
+/* ✅ DELETE /api/feedback/admin/bulk  – ADMIN only */
+export const deleteManyFeedbacks = async (req, res, next) => {
+  try {
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0)
+      return res.status(400).json({ msg: "No feedback IDs provided" });
+
+    const result = await Feedback.deleteMany({ _id: { $in: ids } });
+    res.json({ msg: `${result.deletedCount} feedback(s) deleted` });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const exportCSV = async (req, res) => {
   const fb = await Feedback.find(req.query)
     .populate("course", "title")
@@ -108,13 +114,19 @@ export const exportCSV = async (req, res) => {
   res.send(toCSV(fb));
 };
 
-/* Avg rating per course */
 export const avgRatings = async (_req, res) => {
   const data = await Feedback.aggregate([
     { $group: { _id: "$course", avg: { $avg: "$rating" }, count: { $sum: 1 } } },
-    { $lookup: { from: "courses", localField: "_id", foreignField: "_id", as: "course" } },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "_id",
+        foreignField: "_id",
+        as: "course",
+      },
+    },
     { $unwind: "$course" },
-    { $project: { _id: 0, course: "$course.title", avg: 1, count: 1 } }
+    { $project: { _id: 0, course: "$course.title", avg: 1, count: 1 } },
   ]);
   res.json(data);
 };

@@ -7,6 +7,7 @@ import {
   listAllFeedback,
   updateFeedback,
   deleteFeedback,
+  deleteManyFeedbacks,
   exportCSV,
   avgRatings,
 } from "../controllers/feedbackController.js";
@@ -16,7 +17,7 @@ router.use(auth);
 
 /* Student endpoints */
 router.post("/", addFeedback);        
-router.get("/", listMyFeedback);    // GET  /api/feedback?page=1&limit=10
+router.get("/", listMyFeedback);
 
 router
   .route("/:id")
@@ -24,6 +25,7 @@ router
   .delete(deleteFeedback);      
 
 router.get("/admin/csv", role("ADMIN"), exportCSV);
+router.post("admin/bulk", role("ADMIN"), deleteManyFeedbacks);
 router.get("/admin/avg-ratings", role("ADMIN"), avgRatings);
 
 /* Admin endpoint */

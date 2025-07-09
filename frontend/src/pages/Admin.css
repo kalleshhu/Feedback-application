@@ -120,6 +120,11 @@ ul {
   background: #3367d6;
 }
 
+.danger-all {
+  background-color:#e74c3c;
+  max-width: 150px;
+}
+
 .student-row {
   display: flex;
   align-items: center;
